@@ -1,0 +1,43 @@
+{
+    "name": "figuren-theater/ft-seo",
+    "description": "SEO Tools & Decisions for the WordPress Multisite figuren.theater",
+    "type": "wordpress-muplugin",
+    "license": "GPL-3",
+    "version": "1.0.0",
+    "extra": {
+        "installer-name": "Seo"
+    },
+    "autoload": {
+        "psr-4": {
+            "Figuren_Theater\\Seo\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Carsten Bach"
+        }
+    ],
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/figuren-theater/ft-core"
+        },
+        {
+            "type": "composer",
+            "url": "https://packagist.org"
+        },
+        {
+            "type": "composer",
+            "url" : "https://wpackagist.org"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "figuren-theater/ft-core": "^1",
+        "composer/installers": "~1",
+        "wpackagist-plugin/surbma-yoast-seo-sitemap-to-robotstxt": "2.0",
+        "wpackagist-plugin/wordpress-seo": "^19.8",
+    }
+}
