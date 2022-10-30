@@ -3,7 +3,7 @@
     "description": "SEO Tools & Decisions for the WordPress Multisite figuren.theater",
     "type": "wordpress-muplugin",
     "license": "GPL-3",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "extra": {
         "installer-name": "Seo"
     },
@@ -38,6 +38,6 @@
         "figuren-theater/ft-core": "^1",
         "composer/installers": "~1",
         "wpackagist-plugin/surbma-yoast-seo-sitemap-to-robotstxt": "2.0",
-        "wpackagist-plugin/wordpress-seo": "^19.8",
+        "wpackagist-plugin/wordpress-seo": "^19.8"
     }
 }
