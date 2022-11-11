@@ -3,11 +3,11 @@
  * Plugin Name:     figuren.theater | SEO
  * Plugin URI:      https://github.com/figuren-theater/ft-core
  * Description:     SEO Tools & Decisions for the WordPress Multisite figuren.theater
- * Author:          Carsten Bach
+ * Author:          figuren.theater
  * Author URI:      https://figuren.theater
- * Text Domain:     ft-seo
+ * Text Domain:     figurentheater
  * Domain Path:     /languages
- * Version:         1.0.2
+ * Version:         1.0.3
  *
  * @package         Figuren_Theater\Seo
  */
