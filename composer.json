@@ -1,18 +1,39 @@
 {
     "name": "figuren-theater/ft-seo",
-    "description": "SEO Tools & Decisions for the WordPress Multisite figuren.theater",
+    "description": "Integrations dedicated to search engines and social media plattforms for all sites of the WordPress multisite network figuren.theater",
+    "homepage": "https://websites.fuer.figuren.theater",
     "type": "wordpress-muplugin",
+    "keywords": ["wordpress", "seo", "sitemaps", "opengraph"],
     "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "figuren.theater",
             "email": "info@figuren.theater"
+        },
+        {
+            "name": "Carsten Bach",
+            "email": "mail@carsten-bach.de",
+            "homepage": "https://carsten-bach.de",
+            "role": "Developer"
         }
     ],
+    "support": {
+        "email": "info@figuren.theater",
+        "issues": "https://github.com/figuren-theater/ft-seo/issues",
+        "source": "https://github.com/figuren-theater/ft-seo"
+    },
     "autoload": {
-        "psr-4": {
-            "Figuren_Theater\\Seo\\": "src/"
-        }
+        "files": [
+            "inc/surbma-yoast-seo-sitemap-to-robotstxt/namespace.php",
+            "inc/wordpress-seo/admin-ui.php",
+            "inc/wordpress-seo/open-graph.php",
+            "inc/wordpress-seo/options.php",
+            "inc/wordpress-seo/namespace.php",
+            "inc/namespace.php"
+        ],
+        "classmap": [
+            "inc/"
+        ]
     },
     "repositories": [
         {
@@ -26,8 +47,8 @@
     ],
     "require": {
         "php": ">=7.1",
-        "figuren-theater/ft-options": "~1",
-        "wpackagist-plugin/surbma-yoast-seo-sitemap-to-robotstxt": "2.0",
+        "figuren-theater/ft-options": "^1",
+        "wpackagist-plugin/surbma-yoast-seo-sitemap-to-robotstxt": "^2.0",
         "wpackagist-plugin/wordpress-seo": "^19.8"
     },
     "extra": {

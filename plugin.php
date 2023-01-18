@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:     figuren.theater | SEO
- * Plugin URI:      https://github.com/figuren-theater/ft-core
- * Description:     SEO Tools & Decisions for the WordPress Multisite figuren.theater
+ * Plugin URI:      https://github.com/figuren-theater/ft-seo
+ * Description:     Data integration dedicated to search engines and social media plattforms for all sites of the WordPress multisite network figuren.theater
  * Author:          figuren.theater
  * Author URI:      https://figuren.theater
  * Text Domain:     figurentheater
@@ -12,10 +12,8 @@
  * @package         Figuren_Theater\Seo
  */
 
-
-namespace Figuren_Theater\Seo;
+namespace Figuren_Theater\SEO;
 
 const DIRECTORY = __DIR__;
 
-// add_action( 'Figuren_Theater\\Services\\init', __NAMESPACE__ . '\\register' );
-
+add_action( 'altis.modules.init', __NAMESPACE__ . '\\register' );
