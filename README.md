@@ -9,7 +9,6 @@ This package contains the following plugins.
 Thoose are completely managed by code and lack of their typical UI.
 
 * [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/#developers)
-* [Surbma | Yoast SEO Sitemap to robots.txt](https://wordpress.org/plugins/surbma-yoast-seo-sitemap-to-robotstxt/#developers)
 
 ---
 

@@ -38,7 +38,6 @@ function register() {
 function bootstrap() {
 
 	// Plugins
-	Surbma_Yoast_Seo_Sitemap_To_Robotstxt\bootstrap();
 	Yoast_SEO\bootstrap();
 	
 	// Best practices

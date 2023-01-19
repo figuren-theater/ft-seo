@@ -9,8 +9,7 @@ namespace Figuren_Theater\SEO\Yoast_SEO\Options;
 
 use Figuren_Theater\SEO\Yoast_SEO;
 
-use Figuren_Theater\API;
-use Figuren_Theater\FT;
+use Figuren_Theater;
 use Figuren_Theater\Network\Taxonomies;
 use Figuren_Theater\Options as FT_Options;
 
@@ -298,12 +297,12 @@ function filter_options() {
 	#new FT_Options\Option(
 	#	'wpseo',
 	#	$_options['wpseo'],
-	#	BASENAME
+	#	Yoast_SEO\BASENAME
 	#);
 	new FT_Options\Option_Merged(
 		'wpseo',
 		$_options['wpseo'],
-		BASENAME
+		Yoast_SEO\BASENAME
 	);
 
 	// gets added to the 'OptionsCollection' 
@@ -311,7 +310,7 @@ function filter_options() {
 	new FT_Options\Option(
 		'wpseo_ms',
 		$_options['wpseo_ms'],
-		BASENAME,
+		Yoast_SEO\BASENAME,
 		'site_option'
 	);
 
@@ -321,7 +320,7 @@ function filter_options() {
 	new FT_Options\Option(
 		'wpseo_titles',
 		$_options['wpseo_titles'],
-		BASENAME
+		Yoast_SEO\BASENAME
 	);
 
 
@@ -330,7 +329,7 @@ function filter_options() {
 	new FT_Options\Option(
 		'wpseo_ryte',
 		$_options['wpseo_ryte'],
-		BASENAME
+		Yoast_SEO\BASENAME
 	);
 
 	// gets added to the 'OptionsCollection' 
@@ -338,7 +337,7 @@ function filter_options() {
 	new FT_Options\Option(
 		'wpseo_social',
 		$_options['wpseo_social'],
-		BASENAME
+		Yoast_SEO\BASENAME
 	);
 }
 
