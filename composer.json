@@ -53,7 +53,7 @@
         "php": ">=7.1",
         "figuren-theater/ft-options": "^1",
         "wpackagist-plugin/sharing-image": "^2.0",
-        "wpackagist-plugin/wordpress-seo": "^19.8"
+        "wpackagist-plugin/wordpress-seo": "^20.0"
     },
     "extra": {
         "altis": {
