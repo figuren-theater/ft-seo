@@ -9,6 +9,7 @@ This package contains the following plugins.
 Thoose are completely managed by code and lack of their typical UI.
 
 * [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/#developers)
+* [Sharing Image](https://wordpress.org/plugins/sharing-image/#developers)
 
 ---
 

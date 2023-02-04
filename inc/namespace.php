@@ -17,7 +17,8 @@ use function Altis\register_module;
 function register() {
 
 	$default_settings = [
-		'enabled' => true, // needs to be set
+		'enabled'       => true, // needs to be set
+		'sharing-image' => false,
 	];
 	$options = [
 		'defaults' => $default_settings,
@@ -38,6 +39,7 @@ function register() {
 function bootstrap() {
 
 	// Plugins
+	Sharing_Image\bootstrap();
 	Yoast_SEO\bootstrap();
 	
 	// Best practices
