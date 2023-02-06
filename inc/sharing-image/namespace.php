@@ -56,8 +56,8 @@ function load_plugin() {
 	//////////////
 	Frontend\bootstrap();
 
-	if ( ! is_admin()  )
-		return;
+#	if ( ! is_admin()  )
+#		return;
 
 	/////////////
 	// BACKEND //
