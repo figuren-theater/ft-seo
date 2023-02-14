@@ -49,6 +49,17 @@ function load_plugin() {
 	add_post_type_support( 'post', POST_TYPE_SUPPORT );
 	add_post_type_support( 'page', POST_TYPE_SUPPORT );
 	
+	array_walk(
+		\get_post_types([
+			'_builtin'           => false,
+			'public'             => true,
+			'publicly_queryable' => true,
+	]),
+		function ($post_type_name) {
+			add_post_type_support( $post_type_name, POST_TYPE_SUPPORT );
+		}
+	);
+	
 	require_once PLUGINPATH;
 
 	//////////////
