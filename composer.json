@@ -47,7 +47,7 @@
     "require": {
         "php": ">=7.1",
         "figuren-theater/ft-options": "^1",
-        "wpackagist-plugin/wordpress-seo": "^19.8"
+        "wpackagist-plugin/wordpress-seo": "^20.3"
     },
     "extra": {
         "altis": {
