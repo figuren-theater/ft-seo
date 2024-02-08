@@ -1,10 +1,14 @@
 {
     "name": "figuren-theater/ft-seo",
     "description": "Integrations dedicated to search engines and social media plattforms for all sites of the WordPress multisite network figuren.theater",
-    "homepage": "https://websites.fuer.figuren.theater",
-    "type": "wordpress-muplugin",
-    "keywords": ["wordpress", "seo", "sitemaps", "opengraph"],
     "license": "GPL-3.0-or-later",
+    "type": "wordpress-muplugin",
+    "keywords": [
+        "wordpress",
+        "seo",
+        "sitemaps",
+        "opengraph"
+    ],
     "authors": [
         {
             "name": "figuren.theater",
@@ -17,12 +21,31 @@
             "role": "Developer"
         }
     ],
+    "homepage": "https://websites.fuer.figuren.theater",
     "support": {
         "email": "info@figuren.theater",
         "issues": "https://github.com/figuren-theater/ft-seo/issues",
         "source": "https://github.com/figuren-theater/ft-seo"
     },
+    "require": {
+        "php": ">=7.1",
+        "figuren-theater/ft-options": "*",
+        "wpackagist-plugin/sharing-image": "2.0",
+        "wpackagist-plugin/wordpress-seo": "19.8"
+    },
+    "require-dev": {
+        "figuren-theater/code-quality": "*"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
+        }
+    ],
     "autoload": {
+        "classmap": [
+            "inc/"
+        ],
         "files": [
             "inc/sharing-image/admin-ui.php",
             "inc/sharing-image/frontend.php",
@@ -34,26 +57,15 @@
             "inc/wordpress-seo/options.php",
             "inc/wordpress-seo/namespace.php",
             "inc/namespace.php"
-        ],
-        "classmap": [
-            "inc/"
         ]
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/figuren-theater/ft-options"
-        },
-        {
-            "type": "composer",
-            "url" : "https://wpackagist.org"
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true,
+            "phpstan/extension-installer": true
         }
-    ],
-    "require": {
-        "php": ">=7.1",
-        "figuren-theater/ft-options": "^1",
-        "wpackagist-plugin/sharing-image": "^2.0",
-        "wpackagist-plugin/wordpress-seo": "^19.8"
     },
     "extra": {
         "altis": {
