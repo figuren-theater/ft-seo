@@ -7,27 +7,23 @@
 
 namespace Figuren_Theater\SEO\Yoast_SEO;
 
-use Figuren_Theater\SEO\Yoast_SEO\Admin_UI;
 // use Figuren_Theater\SEO\Yoast_SEO\Open_Graph;
 use Figuren_Theater\SEO\Yoast_SEO\Options;
 
 use FT_VENDOR_DIR;
 
-use WP_DEBUG;
-
-use WPSEO_DEBUG;
-use WPSEO_Menu;
-use WPSEO_Network_Admin_Menu;
-// use WP_CLI;
-// use WP_Query;
-use Yoast_Network_Admin;
-
 use function add_action;
 use function add_filter;
-use function get_plugin_data;
+// use WP_CLI;
+// use WP_Query;
 use function get_plugins;
+
+use function get_plugin_data;
 use function is_admin;
 use function wp_cache_set;
+use WPSEO_Menu;
+use WPSEO_Network_Admin_Menu;
+use Yoast_Network_Admin;
 
 const BASENAME   = 'wordpress-seo/wp-seo.php';
 const PLUGINPATH = FT_VENDOR_DIR . '/wpackagist-plugin/' . BASENAME;
@@ -46,7 +42,7 @@ function load_plugin() {
 
 	// Patch network activated plugin bootstrapping manually.
 	add_action( 'wpseo_loaded', __NAMESPACE__ . '\\enable_yoast_network_admin' );
-	
+
 	// Load Yoast SEO.
 	require_once PLUGINPATH;
 
@@ -63,8 +59,9 @@ function load_plugin() {
 	// https://gist.github.com/paulcollett/4c81c4f6eb85334ba076
 	add_filter( 'wpseo_debug_markers', '__return_false' );
 
-	if ( ! is_admin()  )
+	if ( ! is_admin() ) {
 		return;
+	}
 
 	if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], 'admin.php?page=wpseo_' ) !== false ) {
 		add_action( 'plugins_loaded', __NAMESPACE__ . '\\add_yoast_plugins', 5 );
@@ -74,7 +71,6 @@ function load_plugin() {
 	add_action( 'network_admin_menu', __NAMESPACE__ . '\\Admin_UI\\bootstrap', 0 );
 	add_action( 'admin_menu', __NAMESPACE__ . '\\Admin_UI\\bootstrap', 0 );
 }
-
 
 /**
  * Allow Yoast to validate subscriptions by faking available plugins list.
@@ -132,7 +128,6 @@ function enable_yoast_network_admin() {
 	$network_admin_menu = new WPSEO_Network_Admin_Menu( $admin_menu );
 	$network_admin_menu->register_hooks();
 }
-
 
 /**
  * Add the Yoast SEO sitemap index to the robots.txt file.

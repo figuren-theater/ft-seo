@@ -69,9 +69,9 @@ function opengraph_presenters( array $presenters ) : array {
  * Because by default it is based on WPLANG constant
  *
  * @see https://developer.yoast.com/features/opengraph/api/changing-og-locale-output/#change-the-oglocale-tag
- * 
+ *
  * @param string $locale The current locale.
- * 
+ *
  * @return string The locale.
  */
 function change_og_locale( string $locale ) : string {
