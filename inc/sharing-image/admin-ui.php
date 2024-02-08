@@ -8,7 +8,7 @@
 namespace Figuren_Theater\SEO\Sharing_Image\Admin_UI;
 
 use Figuren_Theater\SEO\Sharing_Image; // NEEDED_CAP
- 
+
 use WP_DEBUG;
 
 use function add_action;
@@ -22,30 +22,30 @@ use function remove_submenu_page;
  * Bootstrap module, when enabled.
  */
 function bootstrap() {
-	
+
 	add_action( 'admin_menu', __NAMESPACE__ . '\\remove_menu', 11 );
 
-	// TODO later
-	// 
+	// TODO #8
+	//
 	// use the new webfont API
 	// as soon as it supports
 	// to get the path(es) of used fonts
 	// AND their primary purpose (heading-fonts, body-text, etc.)
-	// 
+	//
 	// 'sharing_image_get_fontpath' => ['sharing_image_get_fontpath', 10, 2],
 
 	// maybe TODO later
 	// This is only relevant (and called), if the metabox is visible!
-	// 
-	// hand over the just yet selected 
+	//
+	// hand over the just yet selected
 	// and not yet saved fetaured-image to our autogeneration logic
 	// 'sharing_image_update_post_meta' => ['mf_update_post_meta_sharing_image', 10, 2],
 
 	// Disable any UI for the user
 	// which is not that reliable
 	// and not save to use.
-	// 
-	// Maybe this could be re-added in a future, 
+	//
+	// Maybe this could be re-added in a future,
 	// advanced version of the 'schoener_teilen' feature
 	add_filter( 'sharing_image_hide_metabox', __NAMESPACE__ . '\\sharing_image_hide_metabox' );
 
@@ -59,7 +59,7 @@ function bootstrap() {
 
 
 function remove_menu() : void {
-	
+
 	//
 	if ( is_super_admin() && true === constant( 'WP_DEBUG' ) )
 		return;
@@ -100,7 +100,7 @@ function sharing_image_hide_metabox( bool $hide_metabox ) : bool {
 
 /**
  * This is only relevant, if the metabox is visible!
- * 
+ *
  * @param string $meta    Updated post meta.
  * @param string $post_id Post ID.
 public function mf_update_post_meta_sharing_image( $meta, $post_id ) {
@@ -110,7 +110,7 @@ public function mf_update_post_meta_sharing_image( $meta, $post_id ) {
 	# error_log(var_export([
 	# 		\current_filter(),
 	# 		'mf_update_post_meta_sharing_image()',
-	# 		 $meta, $post_id 
+	# 		 $meta, $post_id
 	# 	],true));
 
 
@@ -134,7 +134,7 @@ public function mf_update_post_meta_sharing_image( $meta, $post_id ) {
 
 /**
  * UNUSED right now
- * 
+ *
  * @param string $path  Font file path.
  * @param array  $layer Layer data.
  *
