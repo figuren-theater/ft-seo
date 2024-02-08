@@ -24,6 +24,11 @@
     },
     "autoload": {
         "files": [
+            "inc/sharing-image/admin-ui.php",
+            "inc/sharing-image/frontend.php",
+            "inc/sharing-image/generation.php",
+            "inc/sharing-image/options.php",
+            "inc/sharing-image/namespace.php",
             "inc/wordpress-seo/admin-ui.php",
             "inc/wordpress-seo/open-graph.php",
             "inc/wordpress-seo/options.php",
@@ -47,11 +52,13 @@
     "require": {
         "php": ">=7.1",
         "figuren-theater/ft-options": "^1",
+        "wpackagist-plugin/sharing-image": "^2.0",
         "wpackagist-plugin/wordpress-seo": "^19.8"
     },
     "extra": {
         "altis": {
             "install-overrides": [
+                "wpackagist-plugin/sharing-image",
                 "wpackagist-plugin/wordpress-seo"
             ]
         }
