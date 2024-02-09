@@ -43,7 +43,7 @@ function register(): void {
 function bootstrap(): void {
 
 	// Plugins
-	// Sharing_Image\bootstrap(); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	Sharing_Image\bootstrap();
 	Yoast_SEO\bootstrap();
 	
 	// Best practices
