@@ -59,7 +59,7 @@ function bootstrap(): void {
  *
  * @return void
  */
-function remove_menu() : void {
+function remove_menu(): void {
 
 	if ( is_super_admin() && true === constant( 'WP_DEBUG' ) ) {
 		return;

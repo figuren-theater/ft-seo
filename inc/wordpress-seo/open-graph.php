@@ -80,7 +80,7 @@ function change_og_locale( string $locale ): string {
 	$_lang = get_option( 'WPLANG' );
 	
 	// Check for valid option value.
-	if ( ! \is_string( $_lang) || empty( $_lang ) ) {
+	if ( ! \is_string( $_lang ) || empty( $_lang ) ) {
 		return $locale;
 	}
 

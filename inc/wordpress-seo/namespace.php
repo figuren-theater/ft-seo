@@ -84,7 +84,7 @@ function load_plugin(): void {
  *
  * @return void
  */
-function add_yoast_plugins() : void {
+function add_yoast_plugins(): void {
 	$plugins         = get_plugins();
 	$updated_plugins = $plugins;
 	$available       = array_keys( $plugins );

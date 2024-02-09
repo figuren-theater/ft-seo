@@ -32,9 +32,14 @@ function bootstrap(): void {
 	add_filter( 'sharing_image_hide_meta', '__return_true' );
 
 	/**
-	 * Because 'wpseo_opengraph_image_size' FILTER IS BUGGY
+	 * Add the generated image to yoasts opengraph output.
 	 * 
-	 * we can not use the already working 
+	 * @see https://wpset.org/sharing-image/#faq 
+	 * The docs suggest an alternative approach
+	 * using the 'wpseo_add_opengraph_images' action to add og:images. 
+	 * 
+	 * Because 'wpseo_opengraph_image_size' FILTER IS BUGGY,
+	 * we can not use the already working:
 	 * - 'wpseo_opengraph_image' and
 	 * - 'wpseo_twitter_image' filters.
 	 * 
@@ -54,20 +59,19 @@ function bootstrap(): void {
  * 
  * @return Indexable_Presentation
  */
-function add_image_to_yoast_opengraph( Indexable_Presentation $presentation ) :Indexable_Presentation {
+function add_image_to_yoast_opengraph( Indexable_Presentation $presentation ): Indexable_Presentation {
 	$generated_image_url = esc_url( sharing_image_poster() );
 	if ( $generated_image_url ) {
 		
 		$si_options = get_option( Options\OPTION_NAME );
 		$si_config  = get_option( 'sharing_image_config' );
 
-		if ( 
-		  ! \is_array( $si_options ) 
-		  || ! \is_array( $si_options[0] )
-		  || ! \is_array( $si_config )
-		  || ! isset( $si_options[0]['width'] ) 
-		  || ! isset( $si_options[0]['height'] ) 
-		  || ! isset( $si_config['format'] )
+		if ( ! \is_array( $si_options ) 
+			|| ! \is_array( $si_options[0] )
+			|| ! \is_array( $si_config )
+			|| ! isset( $si_options[0]['width'] ) 
+			|| ! isset( $si_options[0]['height'] ) 
+			|| ! isset( $si_config['format'] )
 		) {
 			return $presentation;
 		}
@@ -84,4 +88,3 @@ function add_image_to_yoast_opengraph( Indexable_Presentation $presentation ) :I
 
 	return $presentation;
 }
-

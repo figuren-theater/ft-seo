@@ -71,7 +71,7 @@ function remove_roles(): void {
  *
  * @return void
  */
-function remove_menus() : void {
+function remove_menus(): void {
 
 	remove_submenu_page( 'wpseo_dashboard', 'wpseo_workouts' );
 	// Remove the Premium submenu.
@@ -130,7 +130,7 @@ function remove_dashboard_widgets() {
  * @since 1.0.0
  * @return void
  */
-function remove_bloat() : void {
+function remove_bloat(): void {
 	?>
 	<style>
 		.yoast_bf_sale,
@@ -163,7 +163,7 @@ function remove_bloat() : void {
  *
  * @return void
  */
-function js_hide_metabox() : void {
+function js_hide_metabox(): void {
 	?>
 	<script type="text/javascript">
 		wp.domReady( function() {
@@ -197,7 +197,7 @@ function js_hide_metabox() : void {
  *
  * @return void
  */
-function hide_yoast_editor_sidebar_panels() : void {
+function hide_yoast_editor_sidebar_panels(): void {
 	$screen = get_current_screen();
 
 	// Bail early if we aren't on a post edit screen.

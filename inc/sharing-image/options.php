@@ -37,7 +37,7 @@ function bootstrap(): void {
  *
  * @return void
  */
-function filter_options() :void {
+function filter_options(): void {
 	
 
 	$_options = [

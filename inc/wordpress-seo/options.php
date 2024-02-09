@@ -48,7 +48,7 @@ function debug() {
  *
  * @return void
  */
-function filter_options() :void {
+function filter_options(): void {
 	
 
 	$_options = [
@@ -364,7 +364,7 @@ function filter_options() :void {
  *
  * @return void
  */
-function re_set_dynamic_options() : void {
+function re_set_dynamic_options(): void {
 
 	$_has_multiple_authors = ( ! Figuren_Theater\FT::site()->has_feature( [ 'einsamer-wolf' ] ) ) ? true : '';
 

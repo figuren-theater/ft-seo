@@ -58,7 +58,7 @@ function load_plugin(): void {
 	add_post_type_support( 'page', POST_TYPE_SUPPORT );
 	
 	\array_map(
-		function ( string $post_type ) : void {
+		function ( string $post_type ): void {
 			add_post_type_support( $post_type, POST_TYPE_SUPPORT );
 		},
 		\get_post_types(
@@ -68,7 +68,7 @@ function load_plugin(): void {
 				'publicly_queryable' => true,
 			]
 		)
-	);	
+	);  
 
 	require_once FT_VENDOR_DIR . PLUGINPATH; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
 
