@@ -2,7 +2,7 @@
 /**
  * Figuren_Theater SEO Sharing_Image.
  *
- * @package figuren-theater/seo/sharing_image
+ * @package figuren-theater/ft-seo
  */
 
 namespace Figuren_Theater\SEO\Sharing_Image;
@@ -21,65 +21,73 @@ use function is_user_admin;
 
 
 const BASENAME   = 'sharing-image/sharing-image.php';
-const PLUGINPATH = FT_VENDOR_DIR . '/wpackagist-plugin/' . BASENAME;
+const PLUGINPATH = '/wpackagist-plugin/' . BASENAME;
 
 const POST_TYPE_SUPPORT = 'sharing-image';
 const NEEDED_CAP        = 'manage_site_options';
 
 /**
  * Bootstrap module, when enabled.
+ *
+ * @return void
  */
-function bootstrap() {
+function bootstrap(): void {
 	
 	Options\bootstrap();
 
 	add_action( 'plugins_loaded', __NAMESPACE__ . '\\load_plugin', 9 );
 }
 
-function load_plugin() {
+/**
+ * Conditionally load the plugin itself and its modifications.
+ *
+ * @return void
+ */
+function load_plugin(): void {
 
 	// Do only load in "normal" admin view
 	// and public views.
 	// Not for:
 	// - network-admin views
 	// - user-admin views
-	if ( is_network_admin() || is_user_admin() )
+	if ( is_network_admin() || is_user_admin() ) {
 		return;
+	}
 
 	add_post_type_support( 'post', POST_TYPE_SUPPORT );
 	add_post_type_support( 'page', POST_TYPE_SUPPORT );
 	
-	array_walk(
-		\get_post_types([
-			'_builtin'           => false,
-			'public'             => true,
-			'publicly_queryable' => true,
-	]),
-		function ($post_type_name) {
-			add_post_type_support( $post_type_name, POST_TYPE_SUPPORT );
-		}
-	);
-	
-	require_once PLUGINPATH;
+	\array_map(
+		function ( string $post_type ) : void {
+			add_post_type_support( $post_type, POST_TYPE_SUPPORT );
+		},
+		\get_post_types(
+			[
+				'_builtin'           => false,
+				'public'             => true,
+				'publicly_queryable' => true,
+			]
+		)
+	);	
 
-	//////////////
+	require_once FT_VENDOR_DIR . PLUGINPATH; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
+
+	// 
 	// FRONTEND //
-	//////////////
+	// 
 	Frontend\bootstrap();
 
-#	if ( ! is_admin()  )
-#		return;
+	// if ( ! is_admin()  )
+	// return;
 
-	/////////////
+	// 
 	// BACKEND //
-	/////////////
+	// 
 	Admin_UI\bootstrap();
 
-	//////////////////////////////////////////////////////////////////
+	// 
 	// BACKEND | Autogeneration logic                               //
 	// triggered on 'wp_insert_post' and/or on 'updated_post_meta'  //
-	//////////////////////////////////////////////////////////////////
+	// 
 	Generation\bootstrap();
-
 }
-

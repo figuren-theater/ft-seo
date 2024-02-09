@@ -6,6 +6,9 @@ parameters:
     paths:
         - inc/
         - plugin.php
+    scanDirectories:
+        # Get used type definitions
+        - wp-content/plugins
     excludePaths:
         analyse:
             - vendor/

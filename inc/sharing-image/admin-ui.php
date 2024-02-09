@@ -2,7 +2,7 @@
 /**
  * Figuren_Theater SEO Sharing_Image\Admin_UI.
  *
- * @package figuren-theater/seo/sharing_image\admin_ui
+ * @package figuren-theater/ft-seo
  */
 
 namespace Figuren_Theater\SEO\Sharing_Image\Admin_UI;
@@ -15,13 +15,14 @@ use function add_action;
 use function add_filter;
 use function current_user_can;
 use function is_super_admin;
-use function remove_menu_page;
 use function remove_submenu_page;
 
 /**
  * Bootstrap module, when enabled.
+ *
+ * @return void
  */
-function bootstrap() {
+function bootstrap(): void {
 
 	add_action( 'admin_menu', __NAMESPACE__ . '\\remove_menu', 11 );
 
@@ -51,18 +52,18 @@ function bootstrap() {
 
 	// disable "Premium" tab on settings page
 	add_filter( 'sharing_image_settings_tabs', __NAMESPACE__ . '\\sharing_image_settings_tabs' );
-
-
 }
 
-
-
-
+/**
+ * Remove the plugins admin-menu.
+ *
+ * @return void
+ */
 function remove_menu() : void {
 
-	//
-	if ( is_super_admin() && true === constant( 'WP_DEBUG' ) )
+	if ( is_super_admin() && true === constant( 'WP_DEBUG' ) ) {
 		return;
+	}
 
 	remove_submenu_page( 'options-general.php', 'sharing-image' );
 }
@@ -70,31 +71,33 @@ function remove_menu() : void {
 
 
 /**
- * [sharing_image_settings_tabs description]
- * @param array $tabs List of settings tabs.
+ * This filter is used to update settings tabs. You can remove existing or add a new one. 
  *
  * @see     https://wpset.org/sharing-image/hooks/#sharing_image_settings_tabs
  *
- * @package project_name
- * @version version
- * @author  Carsten Bach
+ * @param string[] $tabs List of settings tabs.
  *
- * @param   array        $tabs [description]
- * @return  [type]             [description]
+ * @return string[]
  */
-function sharing_image_settings_tabs( array $tabs ) : array {
-    unset( $tabs['premium'] );
-    return $tabs;
+function sharing_image_settings_tabs( array $tabs ): array {
+	unset( $tabs['premium'] );
+	return $tabs;
 }
 
 
 
 /**
- * @param bool $hide_metabox Set true to hide metabox.
+ * Hides the 'Sharing Image' metabox, 
+ * if the current user can not 'manage_site_options' (NEEDED_CAP).
+ * 
  * @see   https://wpset.org/sharing-image/hooks/#sharing_image_hide_metabox
+ * 
+ * @param bool $hide_metabox Set true to hide metabox.
+ * 
+ * @return bool
  */
-function sharing_image_hide_metabox( bool $hide_metabox ) : bool {
-    return current_user_can( Sharing_Image\NEEDED_CAP );
+function sharing_image_hide_metabox( bool $hide_metabox ): bool {
+	return current_user_can( Sharing_Image\NEEDED_CAP );
 }
 
 
@@ -108,10 +111,10 @@ public function mf_update_post_meta_sharing_image( $meta, $post_id ) {
 	$featured_image = \get_post_thumbnail_id($post_id);
 
 	# error_log(var_export([
-	# 		\current_filter(),
-	# 		'mf_update_post_meta_sharing_image()',
-	# 		 $meta, $post_id
-	# 	],true));
+	#       \current_filter(),
+	#       'mf_update_post_meta_sharing_image()',
+	#        $meta, $post_id
+	#   ],true));
 
 
 	if($featured_image) {
@@ -148,6 +151,6 @@ public static function sharing_image_get_fontpath( $path, $layer ) {
 	],true));
 
 	return $path;
-    // return WP_PLUGIN_DIR . '/my-plugin/font.ttf';
+	// return WP_PLUGIN_DIR . '/my-plugin/font.ttf';
 }
  */

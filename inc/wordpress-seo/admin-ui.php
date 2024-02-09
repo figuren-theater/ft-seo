@@ -2,7 +2,7 @@
 /**
  * Figuren_Theater SEO Yoast_SEO\Admin_UI.
  *
- * @package figuren-theater/seo/yoast_seo\admin_ui
+ * @package figuren-theater/ft-seo
  */
 
 namespace Figuren_Theater\SEO\Yoast_SEO\Admin_UI;
@@ -18,18 +18,20 @@ use function remove_submenu_page;
 
 /**
  * Bootstrap module, when enabled.
+ *
+ * @return void
  */
-function bootstrap() {
-		add_action( 'admin_init', __NAMESPACE__ . '\\remove_roles', 11 );
+function bootstrap(): void {
+	add_action( 'admin_init', __NAMESPACE__ . '\\remove_roles', 11 );
 
-		add_action( 'network_admin_menu', __NAMESPACE__ . '\\remove_menus', 12 );
+	add_action( 'network_admin_menu', __NAMESPACE__ . '\\remove_menus', 12 );
 	add_action( 'admin_menu', __NAMESPACE__ . '\\remove_menus', 12 );
 	// add_action( 'wp_dashboard_setup', __NAMESPACE__ . '\\remove_menu__courses' );
 
 	// Remove Yoast SEO dashboard widget.
 	add_action( 'wp_dashboard_setup', __NAMESPACE__ . '\\remove_dashboard_widgets', 0 );
-	// add_action( 'admin_init', __NAMESPACE__ . '\\remove_dashboard_widgets', 0 );
 
+	// Remove Ads, Merch & other bloat.
 	add_action( 'admin_head', __NAMESPACE__ . '\\remove_bloat' );
 
 	// Hide some Yoast Editor panels (ort parts of it) that are only ads.
@@ -51,7 +53,7 @@ function bootstrap() {
  * @author Yoast Team
  * Last Tested: Oct 25 2017 using Yoast SEO 5.7.1 on WordPress 4.8.2
  */
-function remove_roles() : void {
+function remove_roles(): void {
 
 	// Remove Yoast `SEO Manager` role
 	if ( get_role( 'wpseo_manager' ) ) {
@@ -64,6 +66,11 @@ function remove_roles() : void {
 	}
 }
 
+/**
+ * Remove the plugins admin-menu.
+ *
+ * @return void
+ */
 function remove_menus() : void {
 
 	remove_submenu_page( 'wpseo_dashboard', 'wpseo_workouts' );
@@ -86,7 +93,7 @@ function remove_menus() : void {
  * @see https://plugins.trac.wordpress.org/browser/smntcs-utilities/trunk/smntcs-utilities.php#L63
  * @return void
  */
-function remove_menu__courses() : void {
+function remove_menu__courses(): void {
 	remove_submenu_page( 'wpseo_dashboard', 'wpseo_courses' );
 }
 
@@ -101,12 +108,15 @@ function remove_dashboard_widgets() {
 	remove_meta_box( 'wpseo-dashboard-overview', 'dashboard', 'normal' );
 	remove_meta_box( 'wpseo-dashboard-overview', 'dashboard', 'side' );
 
-	add_action( 'admin_enqueue_scripts', function() {
-		// This script & style are enqueued by Yoast.
-		// \wp_dequeue_script( 'yoast-seo-dashboard-widget' );
-		\wp_dequeue_style( 'yoast-seo-wp-dashboard' );
-
-	}, 11 );
+	add_action(
+		'admin_enqueue_scripts',
+		function () {
+			// This script & style are enqueued by Yoast.
+			// \wp_dequeue_script( 'yoast-seo-dashboard-widget' );
+			\wp_dequeue_style( 'yoast-seo-wp-dashboard' );
+		},
+		11 
+	);
 }
 
 /**
@@ -120,7 +130,7 @@ function remove_dashboard_widgets() {
  * @since 1.0.0
  * @return void
  */
-function remove_bloat() {
+function remove_bloat() : void {
 	?>
 	<style>
 		.yoast_bf_sale,
@@ -151,12 +161,9 @@ function remove_bloat() {
  *
  * @todo HIER STIMMT WAS GEWALTIG NICHT
  *
- * @package [package]
- * @since   3.0
- *
- * @return  [type]    [description]
+ * @return void
  */
-function js_hide_metabox() {
+function js_hide_metabox() : void {
 	?>
 	<script type="text/javascript">
 		wp.domReady( function() {
@@ -187,13 +194,14 @@ function js_hide_metabox() {
 
 /**
  * Hide some Yoast Editor panels (ort parts of it) that are only ads.
+ *
+ * @return void
  */
-function hide_yoast_editor_sidebar_panels() {
+function hide_yoast_editor_sidebar_panels() : void {
 	$screen = get_current_screen();
 
-	// Bail early if Yoast Premium is active or if we aren't on a post edit screen.
-	// if ( is_yoast_premium() || $screen->base !== 'post' ) {
-	if ( $screen->base !== 'post' ) {
+	// Bail early if we aren't on a post edit screen.
+	if ( null === $screen || $screen->base !== 'post' ) {
 		return;
 	}
 

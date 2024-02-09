@@ -2,19 +2,21 @@
 /**
  * Figuren_Theater SEO Yoast_SEO\Open_Graph.
  *
- * @package figuren-theater/seo/yoast_seo\open_graph
+ * @package figuren-theater/ft-seo
  */
 
 namespace Figuren_Theater\SEO\Yoast_SEO\Open_Graph;
 
-use function add_action;
+use function add_filter;
 use function get_option;
 
 
 /**
  * Bootstrap module, when enabled.
+ *
+ * @return void
  */
-function bootstrap() {
+function bootstrap(): void {
 
 	// WARNING: bootstrap() itself is called on 'plugins_loaded', 19.01.2023
 	// add_action( 'muplugins_loaded', __NAMESPACE__ . '\\load_metadata', 0 );
@@ -23,8 +25,7 @@ function bootstrap() {
 	// Yoast debug mode will pretty print the yoast-schema-graph HTML.
 	defined( 'WPSEO_DEBUG' ) || define( 'WPSEO_DEBUG', WP_DEBUG );
 
-	//
-	add_action( 'wpseo_og_locale', __NAMESPACE__ . '\\change_og_locale' );
+		add_filter( 'wpseo_og_locale', __NAMESPACE__ . '\\change_og_locale' );
 	// 'wpseo_og_locale' => 'preferred_languages_filter_locale',
 	// 'locale' => 'change_og_locale', // done pref_lang on prio 5
 	// 'locale' => ['change_og_locale', 100],
@@ -68,15 +69,21 @@ function opengraph_presenters( array $presenters ) : array {
  * Filter the 'locale' output.
  * Because by default it is based on WPLANG constant
  *
- * @see https://developer.yoast.com/features/opengraph/api/changing-og-locale-output/#change-the-oglocale-tag
+ * @source https://github.com/Yoast/wordpress-seo/blob/9c600ab6ee4575c9a98ed190a03aa6e570b64de0/src/presenters/open-graph/locale-presenter.php#L34
+ * @see    https://developer.yoast.com/features/opengraph/api/changing-og-locale-output/#change-the-oglocale-tag (wrong filter-name)
  *
  * @param string $locale The current locale.
  *
  * @return string The locale.
  */
-function change_og_locale( string $locale ) : string {
-	$_lang = get_option('WPLANG');
+function change_og_locale( string $locale ): string {
+	$_lang = get_option( 'WPLANG' );
+	
+	// Check for valid option value.
+	if ( ! \is_string( $_lang) || empty( $_lang ) ) {
+		return $locale;
+	}
+
+	// Return the first five letters of the locale-string.
 	return substr( $_lang, 0, 5 );
 }
-
-
