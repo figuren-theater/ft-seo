@@ -8,8 +8,6 @@
 namespace Figuren_Theater\SEO;
 
 use Altis;
-// use function Altis\register_module;
-
 
 /**
  * Register module.
@@ -19,7 +17,7 @@ use Altis;
 function register(): void {
 
 	$default_settings = [
-		'enabled'       => true, // needs to be set
+		'enabled'       => true, // Needs to be set.
 		'sharing-image' => false,
 	];
 	$options          = [
@@ -42,10 +40,7 @@ function register(): void {
  */
 function bootstrap(): void {
 
-	// Plugins
+	// Plugins.
 	Sharing_Image\bootstrap();
 	Yoast_SEO\bootstrap();
-	
-	// Best practices
-	// ...\bootstrap();
 }

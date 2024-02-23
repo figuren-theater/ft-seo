@@ -26,7 +26,6 @@ function bootstrap(): void {
 
 	add_action( 'network_admin_menu', __NAMESPACE__ . '\\remove_menus', 12 );
 	add_action( 'admin_menu', __NAMESPACE__ . '\\remove_menus', 12 );
-	// add_action( 'wp_dashboard_setup', __NAMESPACE__ . '\\remove_menu__courses' );
 
 	// Remove Yoast SEO dashboard widget.
 	add_action( 'wp_dashboard_setup', __NAMESPACE__ . '\\remove_dashboard_widgets', 0 );
@@ -42,7 +41,6 @@ function bootstrap(): void {
 	add_filter( 'wpseo_helpscout_show_beacon', '__return_false' );
 
 	// CSS overrides.
-	// add_action( 'admin_head', __NAMESPACE__ . '\\hide_yoast_premium_social_previews' );
 	add_action( 'admin_head', __NAMESPACE__ . '\\hide_yoast_editor_sidebar_panels' );
 }
 
@@ -55,12 +53,12 @@ function bootstrap(): void {
  */
 function remove_roles(): void {
 
-	// Remove Yoast `SEO Manager` role
+	// Remove Yoast `SEO Manager` role.
 	if ( get_role( 'wpseo_manager' ) ) {
 		remove_role( 'wpseo_manager' );
 	}
 
-	// Remove Yoast `SEO Editor` role
+	// Remove Yoast `SEO Editor` role.
 	if ( get_role( 'wpseo_editor' ) ) {
 		remove_role( 'wpseo_editor' );
 	}
@@ -73,29 +71,22 @@ function remove_roles(): void {
  */
 function remove_menus(): void {
 
+	remove_submenu_page( 'wpseo_dashboard', 'wpseo_integrations' );
 	remove_submenu_page( 'wpseo_dashboard', 'wpseo_workouts' );
-	// Remove the Premium submenu.
+	remove_menu_page( 'wpseo_workouts' );
+	
+	// Remove the Premium submenus.
 	remove_submenu_page( 'wpseo_dashboard', 'wpseo_licenses' );
 	remove_submenu_page( 'wpseo_dashboard', 'wpseo_redirects' );
-
+	remove_menu_page( 'wpseo_redirects' );
+	
 	if ( is_super_admin() && true === constant( 'WP_DEBUG' ) ) {
 		return;
 	}
 
 	remove_menu_page( 'wpseo_dashboard' );
-
-	// remove_menu_page( 'wpseo_workouts' );
 }
 
-/**
- * Yoast » Remove courses.
- *
- * @see https://plugins.trac.wordpress.org/browser/smntcs-utilities/trunk/smntcs-utilities.php#L63
- * @return void
- */
-function remove_menu__courses(): void {
-	remove_submenu_page( 'wpseo_dashboard', 'wpseo_courses' );
-}
 
 /**
  * Remove the Yoast SEO dashboard widget.
@@ -112,7 +103,8 @@ function remove_dashboard_widgets() {
 		'admin_enqueue_scripts',
 		function () {
 			// This script & style are enqueued by Yoast.
-			// \wp_dequeue_script( 'yoast-seo-dashboard-widget' );
+			// And 17 other script are load unnecessarily on the dashboard, which are now gone, too. Yeah!
+			\wp_dequeue_script( 'yoast-seo-dashboard-widget' );
 			\wp_dequeue_style( 'yoast-seo-wp-dashboard' );
 		},
 		11 
@@ -158,8 +150,12 @@ function remove_bloat(): void {
 }
 
 /**
- *
- * @todo HIER STIMMT WAS GEWALTIG NICHT
+ * Un-clutter some UI.
+ * 
+ * 1. Un-Pin a potentially pinned yoast-sidebar
+ * 2. Close metabox by default (buggy)
+ * 
+ * @todo https://github.com/figuren-theater/ft-seo/issues/14 Close Yoasts metabox by default (buggy)
  *
  * @return void
  */
@@ -176,6 +172,7 @@ function js_hide_metabox(): void {
 			const _wpseo_metabox = wp.data.select( 'core/edit-post').isEditorPanelEnabled( 'meta-box-wpseo_meta' );
 			if ( _wpseo_metabox ) {
 				wp.data.dispatch( 'core/edit-post').toggleEditorPanelEnabled( 'meta-box-wpseo_meta' );
+				wp.data.dispatch( 'core/edit-post').toggleEditorPanelOpened( 'meta-box-wpseo_meta' );
 			}
 
 			// @see  https://github.com/WordPress/gutenberg/blob/4a4e32deb12d2ce104fbfb09734d2b0583315546/packages/interface/README.md#L67
@@ -228,7 +225,7 @@ function hide_yoast_editor_sidebar_panels(): void {
 
 	];
 
-	$styles = join( ', ', $selectors ) . ' {
+	$css = join( ', ', $selectors ) . ' {
 		display: none;
 	}
 	/** Reset "Seo Analysis" editor sidebar panel > clickable title & results */
@@ -238,5 +235,16 @@ function hide_yoast_editor_sidebar_panels(): void {
 	}
 	';
 
-	echo "<style>$styles</style>"; // phpcs:ignore HM.Security.EscapeOutput.OutputNotEscaped
+	$escaped_css = strtr(
+		wp_filter_nohtml_kses( $css ),
+		[
+			'&gt;' => '>',
+			"\'"   => "'",
+			'\"'   => '"',
+		]
+	);
+	\printf(
+		'<style>%s</style>',
+		$escaped_css // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	);
 }

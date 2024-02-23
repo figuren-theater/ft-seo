@@ -7,13 +7,7 @@
 
 namespace Figuren_Theater\SEO\Sharing_Image;
 
-use Figuren_Theater\SEO\Sharing_Image\Admin_UI;
-use Figuren_Theater\SEO\Sharing_Image\Frontend;
-use Figuren_Theater\SEO\Sharing_Image\Generation;
-use Figuren_Theater\SEO\Sharing_Image\Options;
-
 use FT_VENDOR_DIR;
-
 use function add_action;
 use function add_post_type_support;
 use function is_network_admin;
@@ -49,7 +43,7 @@ function load_plugin(): void {
 	// and public views.
 	// Not for:
 	// - network-admin views
-	// - user-admin views
+	// - user-admin views.
 	if ( is_network_admin() || is_user_admin() ) {
 		return;
 	}
@@ -72,22 +66,16 @@ function load_plugin(): void {
 
 	require_once FT_VENDOR_DIR . PLUGINPATH; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
 
-	// 
-	// FRONTEND //
-	// 
+	// FRONTEND.
 	Frontend\bootstrap();
 
 	// if ( ! is_admin()  )
 	// return;
 
-	// 
-	// BACKEND //
-	// 
+	// BACKEND.
 	Admin_UI\bootstrap();
 
-	// 
-	// BACKEND | Autogeneration logic                               //
-	// triggered on 'wp_insert_post' and/or on 'updated_post_meta'  //
-	// 
+	// BACKEND | Autogeneration logic
+	// Triggered on 'wp_insert_post' and/or on 'updated_post_meta'.
 	Generation\bootstrap();
 }

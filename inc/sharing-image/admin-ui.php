@@ -7,7 +7,7 @@
 
 namespace Figuren_Theater\SEO\Sharing_Image\Admin_UI;
 
-use Figuren_Theater\SEO\Sharing_Image; // NEEDED_CAP
+use Figuren_Theater\SEO\Sharing_Image;
 
 use WP_DEBUG;
 
@@ -33,24 +33,24 @@ function bootstrap(): void {
 	// to get the path(es) of used fonts
 	// AND their primary purpose (heading-fonts, body-text, etc.)
 	//
-	// 'sharing_image_get_fontpath' => ['sharing_image_get_fontpath', 10, 2],
+	// 'sharing_image_get_fontpath' => ['sharing_image_get_fontpath', 10, 2], // !
 
 	// maybe TODO later
 	// This is only relevant (and called), if the metabox is visible!
 	//
 	// hand over the just yet selected
 	// and not yet saved fetaured-image to our autogeneration logic
-	// 'sharing_image_update_post_meta' => ['mf_update_post_meta_sharing_image', 10, 2],
+	// 'sharing_image_update_post_meta' => ['mf_update_post_meta_sharing_image', 10, 2], // !
 
 	// Disable any UI for the user
 	// which is not that reliable
 	// and not save to use.
 	//
 	// Maybe this could be re-added in a future,
-	// advanced version of the 'schoener_teilen' feature
+	// advanced version of the 'schoener_teilen' feature.
 	add_filter( 'sharing_image_hide_metabox', __NAMESPACE__ . '\\sharing_image_hide_metabox' );
 
-	// disable "Premium" tab on settings page
+	// Disable "Premium" tab on settings page.
 	add_filter( 'sharing_image_settings_tabs', __NAMESPACE__ . '\\sharing_image_settings_tabs' );
 }
 
@@ -92,11 +92,9 @@ function sharing_image_settings_tabs( array $tabs ): array {
  * 
  * @see   https://wpset.org/sharing-image/hooks/#sharing_image_hide_metabox
  * 
- * @param bool $hide_metabox Set true to hide metabox.
- * 
  * @return bool
  */
-function sharing_image_hide_metabox( bool $hide_metabox ): bool {
+function sharing_image_hide_metabox(): bool {
 	return current_user_can( Sharing_Image\NEEDED_CAP );
 }
 

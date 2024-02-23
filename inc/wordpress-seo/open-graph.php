@@ -19,16 +19,13 @@ use function get_option;
 function bootstrap(): void {
 
 	// WARNING: bootstrap() itself is called on 'plugins_loaded', 19.01.2023
-	// add_action( 'muplugins_loaded', __NAMESPACE__ . '\\load_metadata', 0 );
-
+	// add_action( 'muplugins_loaded', __NAMESPACE__ . '\\load_metadata', 0 ); // Maybe re-use old altis stuff?
 
 	// Yoast debug mode will pretty print the yoast-schema-graph HTML.
-	defined( 'WPSEO_DEBUG' ) || define( 'WPSEO_DEBUG', WP_DEBUG );
+	defined( 'WPSEO_DEBUG' ) || define( 'WPSEO_DEBUG', WP_DEBUG ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 
-		add_filter( 'wpseo_og_locale', __NAMESPACE__ . '\\change_og_locale' );
-	// 'wpseo_og_locale' => 'preferred_languages_filter_locale',
-	// 'locale' => 'change_og_locale', // done pref_lang on prio 5
-	// 'locale' => ['change_og_locale', 100],
+	// Update the 'locale' output, to not rely on WPLANG constant.
+	add_filter( 'wpseo_og_locale', __NAMESPACE__ . '\\change_og_locale' );
 }
 
 
