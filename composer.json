@@ -34,7 +34,7 @@
         "wpackagist-plugin/wordpress-seo": "19.8"
     },
     "require-dev": {
-        "figuren-theater/code-quality": "*"
+        "figuren-theater/code-quality": "^1.1"
     },
     "repositories": [
         {
