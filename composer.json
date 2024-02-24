@@ -36,6 +36,9 @@
     "require-dev": {
         "figuren-theater/code-quality": "^1.1"
     },
+    "suggest": {
+        "figuren-theater/ft-media": "Contains the mandatory function to shrink and minify images."
+    },
     "repositories": [
         {
             "type": "composer",
