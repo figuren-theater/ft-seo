@@ -42,6 +42,7 @@ const LAYER = [
 	'blur'    => 4,
 ];
 
+
 /**
  * Bootstrap module, when enabled.
  *
@@ -50,6 +51,7 @@ const LAYER = [
 function bootstrap(): void {
 	add_action( 'init', __NAMESPACE__ . '\\load', 0 ); // Figuren_Theater\Media\Auto_Featured_Image runs on 'init:10'.
 }
+
 
 /**
  * Load Autogeneration logic hooks at relevant spots of the save_post workflow.
@@ -193,6 +195,7 @@ function try_to_get_post(): WP_Post|false {
 	return false;
 }
 
+
 /**
  * Filters the value of the 'sharing_image_templates' option before it is retrieved.
  * 
@@ -228,6 +231,7 @@ function pre_option_sharing_image_templates( $option ): array|bool {
 
 	return $option;
 }
+
 
 /**
  * Prepare template before creating poster with this filter.
@@ -290,8 +294,10 @@ function optimize_new_delete_previous_image( array|false $poster, int $post_id )
 
 	// Compress image,
 	// this makes 25kb > 15kb and 93kb > 49kb !
-	$_path = get_path_from_url( $poster['poster'] );
-	Image_Optimization\replace( $_path );
+	if ( \function_exists( '\Figuren_Theater\Media\Image_Optimization\replace' ) ) {
+		$_path = get_path_from_url( $poster['poster'] );
+		Image_Optimization\replace( $_path );
+	}
 
 	// Grab the last image from post_meta,
 	// before it gets updated
@@ -308,7 +314,7 @@ function optimize_new_delete_previous_image( array|false $poster, int $post_id )
 
 	// Get old image data, if any
 	// and delete it.
-	delete_generated_image( $post_id, get_post( $post_id ) );
+	delete_generated_image( $post_id );
 
 	// Bye bye and return the un-modified, new image (data).
 	return $poster;
@@ -354,7 +360,7 @@ function trigger_autogeneration( $meta_id, $object_id, $meta_key ): void {
 	//
 	// So we have to delete this at first
 	// to make sure this runs properly.
-	delete_generated_image( $object_id, get_post( $object_id ) );
+	delete_generated_image( $object_id );
 
 	// Generate new poster data using post data.
 	( new Generator() )->compose( 
@@ -365,6 +371,7 @@ function trigger_autogeneration( $meta_id, $object_id, $meta_key ): void {
 		'post'
 	);
 }
+
 
 /**
  * Delete auto-generated 'Sharing Image's.
@@ -377,7 +384,13 @@ function trigger_autogeneration( $meta_id, $object_id, $meta_key ): void {
  *
  * @return void
  */
-function delete_generated_image( int $post_id, WP_Post $post ): void {
+function delete_generated_image( int $post_id, ?WP_Post $post = null ): void {
+	if ( ! $post instanceof WP_Post ) {
+		$post = get_post( $post_id );
+	}
+	if ( ! $post instanceof WP_Post ) {
+		return;
+	}
 
 	if ( ! post_type_supports( $post->post_type, Sharing_Image\POST_TYPE_SUPPORT ) ) {
 		return;
@@ -423,39 +436,50 @@ function __prepare_text_layer( $layer_name = 'title', $new_text = '' ) {
 }
  */
 
+
 /**
  * Add a new 'Logo' Layer to the 'Sharing Image' template.
  *
- * @param  array<string, array<array<string, string>>> $template List of template data.
+ * @param  array<mixed> $template List of template data.
  *
- * @return array<string, array<array<string, string>>>
+ * @return array<mixed>
  */
 function get_site_logo( array $template ): array {
-	// Which index has this layer in the array of saved layers for this template?
-	$layer_index = (int) LAYER['logo'];
+
+	if ( ! isset( $template['layers'] ) 
+		|| ! \is_array( $template['layers'] ) 
+		|| ! isset( $template['layers'][ LAYER['logo'] ] ) 
+		|| ! \is_array( $template['layers'][ LAYER['logo'] ] ) ) {
+		return $template;
+	}
 
 	// Get site-logo ID.
 	$logo = get_option( 'site_icon' );
 
 	if ( empty( $logo ) || ! \is_string( $logo ) ) {
 		// The plugin itself checks if 'attachment' isset().
-		unset( $template['layers'][ $layer_index ]['attachment'] );
+		unset( $template['layers'][ LAYER['logo'] ]['attachment'] );
 		return $template;
 	}
 	
-	$template['layers'][ $layer_index ]['attachment'] = $logo;
+	$template['layers'][ LAYER['logo'] ]['attachment'] = $logo;
 	
 	return $template;
 }
 
+
 /**
  * Add color-definitions to existing layers of the 'Sharing Image' template to match the current theme.
  *
- * @param  array<string, array<array<string, string>>|string> $template List of template data.
+ * @param  array<mixed> $template List of template data.
  *
- * @return array<string, array<array<string, string>>|string>
+ * @return array<mixed>
  */
 function get_theme_color( array $template ): array {
+	if ( ! \function_exists( '\Figuren_Theater\Theming\Themed_Login\ft_get_relevant_colors' ) ) {
+		return $template;
+	}
+
 	// Get colors from gutenberg.
 	$colors = \Figuren_Theater\Theming\Themed_Login\ft_get_relevant_colors();
 
@@ -468,13 +492,14 @@ function get_theme_color( array $template ): array {
 	return $template;
 }
 
+
 /**
  * Set the background-image for the 'Sharing Image' template to match the current posts featured-image.
  *
- * @param  array<string, string> $template List of template data.
- * @param  WP_Post|null          $post     
+ * @param  array<mixed> $template List of template data.
+ * @param  WP_Post|null $post     
  *
- * @return array<string, string>
+ * @return array<mixed>
  */
 function get_featured_image( array $template, WP_Post|null $post ): array {
 	// 0.
@@ -491,16 +516,25 @@ function get_featured_image( array $template, WP_Post|null $post ): array {
 	return $template;
 }
 
+
 /**
  * Set the URL text of the 'Sharing Image' template 
  * to the shortlink of the given post or the site_url as a fallback.
  *
- * @param  array<string, array<array<string, string>>> $template List of template data.
- * @param  WP_Post|null                                $post     Current Post object.
+ * @param  array<mixed> $template List of template data.
+ * @param  WP_Post|null $post     Current Post object.
  *
- * @return array<string, array<array<string, string>>>
+ * @return array<mixed>
  */
 function get_shortlink( array $template, WP_Post|null $post ): array {
+
+	if ( ! isset( $template['layers'] ) 
+		|| ! \is_array( $template['layers'] ) 
+		|| ! isset( $template['layers'][ LAYER['url'] ] ) 
+		|| ! \is_array( $template['layers'][ LAYER['url'] ] ) ) {
+		return $template;
+	}
+
 	// Prepare url.
 	$url = null;
 
@@ -531,6 +565,7 @@ function get_shortlink( array $template, WP_Post|null $post ): array {
 
 	return $template;
 }
+
 
 /**
  * Extract an image path from its URL.

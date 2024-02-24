@@ -112,15 +112,15 @@ function sharing_image_hide_metabox(): bool {
  * 
  * @see https://wpset.org/sharing-image/hooks/#sharing_image_update_post_meta
  *
- * @param array $meta    Updated post meta.
- * @param int   $post_id Post ID.
+ * @param  array<string, array<int, array<string, int|string>>> $meta    Updated post meta.
+ * @param  int                                                  $post_id Post ID.
  * 
- * @return array
+ * @return array<string, array<int, array<string, int|string>>>
  */
 function mf_update_post_meta_sharing_image( array $meta, int $post_id ): array {
 	$featured_image = \get_post_thumbnail_id( $post_id );
 	if ( $featured_image ) {
-		if ( isset( $meta ) && isset( $meta['fieldset'] ) ) {
+		if ( isset( $meta['fieldset'] ) && ! empty( $meta['fieldset'] ) ) {
 			// Loop all templates.
 			foreach ( $meta['fieldset'] as $index => $template ) {
 				// Assign featured image as attachment if no attachment defined.

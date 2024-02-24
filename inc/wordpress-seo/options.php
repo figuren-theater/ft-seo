@@ -360,7 +360,7 @@ function filter_options(): void {
  */
 function re_set_dynamic_options(): void {
 
-	$_has_multiple_authors = ( ! Figuren_Theater\FT::site()->has_feature( [ 'einsamer-wolf' ] ) ) ? true : '';
+	$_has_multiple_authors = ( ! \Figuren_Theater\FT::site()->has_feature( [ 'einsamer-wolf' ] ) ) ? true : '';
 
 	$_logo_id  = null;
 	$_logo_url = null;
