@@ -2,71 +2,64 @@
 /**
  * Figuren_Theater SEO Yoast_SEO.
  *
- * @package figuren-theater/seo/yoast_seo
+ * @package figuren-theater/ft-seo
  */
 
 namespace Figuren_Theater\SEO\Yoast_SEO;
 
-use Figuren_Theater\SEO\Yoast_SEO\Admin_UI;
-// use Figuren_Theater\SEO\Yoast_SEO\Open_Graph;
-use Figuren_Theater\SEO\Yoast_SEO\Options;
-
 use FT_VENDOR_DIR;
-
-use WP_DEBUG;
-
-use WPSEO_DEBUG;
 use WPSEO_Menu;
 use WPSEO_Network_Admin_Menu;
-// use WP_CLI;
-// use WP_Query;
 use Yoast_Network_Admin;
-
 use function add_action;
 use function add_filter;
-use function get_plugin_data;
 use function get_plugins;
+use function get_plugin_data;
 use function is_admin;
 use function wp_cache_set;
 
 const BASENAME   = 'wordpress-seo/wp-seo.php';
-const PLUGINPATH = FT_VENDOR_DIR . '/wpackagist-plugin/' . BASENAME;
+const PLUGINPATH = '/wpackagist-plugin/' . BASENAME;
 
 /**
  * Bootstrap module, when enabled.
+ *
+ * @return void
  */
-function bootstrap() {
+function bootstrap(): void {
 
 	Options\bootstrap();
 
 	add_action( 'plugins_loaded', __NAMESPACE__ . '\\load_plugin', 0 );
 }
 
-function load_plugin() {
+/**
+ * Conditionally load the plugin itself and its modifications.
+ *
+ * @return void
+ */
+function load_plugin(): void {
 
 	// Patch network activated plugin bootstrapping manually.
 	add_action( 'wpseo_loaded', __NAMESPACE__ . '\\enable_yoast_network_admin' );
-	
+
 	// Load Yoast SEO.
-	require_once PLUGINPATH;
+	require_once FT_VENDOR_DIR . PLUGINPATH; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
 
 	Open_Graph\bootstrap();
 
-	// Intend to save indexables.
-	// @see https://github.com/Yoast/wordpress-seo/blob/trunk/src/builders/indexable-builder.php#L258
-	// add_filter( 'wpseo_should_save_indexable', '__return_true' );
-
-	// Add sitemap to robots.txt.
-	add_filter( 'robots_txt', __NAMESPACE__ . '\\add_sitemap_index_to_robots', 11, 2 );
-
-	// Remove All Yoast HTML Comments
-	// https://gist.github.com/paulcollett/4c81c4f6eb85334ba076
+	/**
+	 * Remove All Yoast HTML Comments.
+	 * 
+	 * @see https://gist.github.com/paulcollett/4c81c4f6eb85334ba076
+	 */
 	add_filter( 'wpseo_debug_markers', '__return_false' );
 
-	if ( ! is_admin()  )
+	if ( ! is_admin() ) {
 		return;
+	}
 
-	if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], 'admin.php?page=wpseo_' ) !== false ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) && \is_string( $_SERVER['REQUEST_URI'] ) && strpos( \sanitize_text_field( $_SERVER['REQUEST_URI'] ), 'admin.php?page=wpseo_' ) !== false ) {
 		add_action( 'plugins_loaded', __NAMESPACE__ . '\\add_yoast_plugins', 5 );
 		add_filter( 'site_option_active_sitewide_plugins', __NAMESPACE__ . '\\active_yoast_plugins' );
 	}
@@ -75,18 +68,16 @@ function load_plugin() {
 	add_action( 'admin_menu', __NAMESPACE__ . '\\Admin_UI\\bootstrap', 0 );
 }
 
-
 /**
  * Allow Yoast to validate subscriptions by faking available plugins list.
  *
  * @return void
  */
-function add_yoast_plugins() {
-	$plugins = get_plugins();
+function add_yoast_plugins(): void {
+	$plugins         = get_plugins();
 	$updated_plugins = $plugins;
-	$available = array_keys( $plugins );
+	$available       = array_keys( $plugins );
 
-	// $plugin_path = Altis\ROOT_DIR . '/vendor/yoast/' . $plugin_file;
 	if ( is_readable( PLUGINPATH ) && ! in_array( BASENAME, $available, true ) ) {
 		$updated_plugins[ BASENAME ] = get_plugin_data( PLUGINPATH, false, false );
 	}
@@ -100,15 +91,12 @@ function add_yoast_plugins() {
 /**
  * Filter Yoast plugins to appear active.
  *
- * @param array $active_plugins List of activated plugins.
- * @return array
+ * @param array<string, int> $active_plugins List of activated plugins.
+ * 
+ * @return array<string, int>
  */
-function active_yoast_plugins( $active_plugins ) {
-	if ( ! is_array( $active_plugins ) ) {
-		return $active_plugins;
-	}
+function active_yoast_plugins( array $active_plugins ) {
 
-	// $plugin_path = Altis\ROOT_DIR . '/vendor/yoast/' . $plugin_file;
 	if ( is_readable( PLUGINPATH ) ) {
 		$active_plugins[ BASENAME ] = time();
 	}
@@ -128,24 +116,7 @@ function active_yoast_plugins( $active_plugins ) {
 function enable_yoast_network_admin() {
 	$network_admin = new Yoast_Network_Admin();
 	$network_admin->register_hooks();
-	$admin_menu = new WPSEO_Menu();
+	$admin_menu         = new WPSEO_Menu();
 	$network_admin_menu = new WPSEO_Network_Admin_Menu( $admin_menu );
 	$network_admin_menu->register_hooks();
-}
-
-
-/**
- * Add the Yoast SEO sitemap index to the robots.txt file.
- *
- * @param string $output The original robots.txt content.
- * @param bool   $public Whether the site is public.
- *
- * @return string The filtered robots.txt content.
- */
-function add_sitemap_index_to_robots( string $output, bool $public ) : string {
-	if ( $public ) {
-		$output .= sprintf( "Sitemap: %s\n", site_url( '/sitemap_index.xml' ) );
-	}
-
-	return $output;
 }

@@ -2,25 +2,25 @@
 /**
  * Figuren_Theater SEO.
  *
- * @package figuren-theater/seo
+ * @package figuren-theater/ft-seo
  */
 
 namespace Figuren_Theater\SEO;
 
 use Altis;
-use function Altis\register_module;
-
 
 /**
  * Register module.
+ *
+ * @return void
  */
-function register() {
+function register(): void {
 
 	$default_settings = [
-		'enabled'       => true, // needs to be set
+		'enabled'       => true, // Needs to be set.
 		'sharing-image' => false,
 	];
-	$options = [
+	$options          = [
 		'defaults' => $default_settings,
 	];
 
@@ -35,13 +35,12 @@ function register() {
 
 /**
  * Bootstrap module, when enabled.
+ *
+ * @return void
  */
-function bootstrap() {
+function bootstrap(): void {
 
-	// Plugins
+	// Plugins.
 	Sharing_Image\bootstrap();
 	Yoast_SEO\bootstrap();
-	
-	// Best practices
-	//...\bootstrap();
 }

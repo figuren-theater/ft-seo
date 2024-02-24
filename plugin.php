@@ -9,7 +9,7 @@
  * Domain Path:     /languages
  * Version:         1.1.0
  *
- * @package         Figuren_Theater\Seo
+ * @package         figuren-theater/ft-seo
  */
 
 namespace Figuren_Theater\SEO;

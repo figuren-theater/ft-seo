@@ -1,0 +1,29 @@
+#$ vendor/bin/phpstan analyze
+
+parameters:
+    level: max
+    inferPrivatePropertyTypeFromConstructor: true
+    paths:
+        - inc/
+        - plugin.php
+    scanDirectories:
+        # Get used type definitions
+        - wp-content/plugins
+    excludePaths:
+        analyse:
+            - vendor/
+            # "/wp-content/" is created during composer install,
+            # when package is tested
+            # and not running within ft-platform
+            - wp-content/
+            - tests/
+    ignoreErrors:
+        # Find a nicer way instead of ignoring this Error on every ft-module
+        - '#Function Altis\\register_module not found\.#'
+        # TODO https://github.com/figuren-theater/ft-seo/issues/15 Remove ugly dependencies to old spaghetti code
+        - '#Access to constant NAME on an unknown class Figuren_Theater\\Network\\Taxonomies\\Taxonomy__ft_geolocation\.#'
+        - '#Access to constant SLUG on an unknown class Figuren_Theater\\Network\\Taxonomies\\Taxonomy__ft_geolocation\.#'
+        - '#Access to constant NAME on an unknown class Figuren_Theater\\Network\\Taxonomies\\Taxonomy__ft_site_shadow\.#'
+        - '#Access to constant SLUG on an unknown class Figuren_Theater\\Network\\Taxonomies\\Taxonomy__ft_site_shadow\.#'
+        - '#Call to static method get\(\) on an unknown class Figuren_Theater\\API\.#'
+        - '#Call to static method site\(\) on an unknown class Figuren_Theater\\FT\.#'
