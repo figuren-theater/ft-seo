@@ -7,12 +7,10 @@
 
 namespace Figuren_Theater\SEO\Sharing_Image\Options;
 
-use Figuren_Theater\Options;
+use Figuren_Theater;
 use Figuren_Theater\SEO\Sharing_Image;
 use WP_DEBUG;
-use function __;
 use function add_action;
-use function get_option;
 
 // Defined at "Sharing_Image_Plugin\Settings::OPTION_TEMPLATES" within the plugin.
 const OPTION_NAME = 'sharing_image_templates';
@@ -23,7 +21,6 @@ const OPTION_NAME = 'sharing_image_templates';
  * @return void
  */
 function bootstrap(): void {
-
 	add_action( 'Figuren_Theater\loaded', __NAMESPACE__ . '\\filter_options', 11 );
 }
 
@@ -47,7 +44,7 @@ function filter_options(): void {
 			'autogenerate' => 0, // Not a true/false switch, but the index of the templates-array, with the template for autogeneration.
 		),
 		OPTION_NAME             => array(
-			0 => array(
+			array(
 				'preview'    => '',
 				'title'      => 'standard',
 				'fill'       => '#000000',
@@ -65,39 +62,38 @@ function filter_options(): void {
 						'color'      => '#ffffff',
 						'horizontal' => 'left',
 						'vertical'   => 'center',
-						'fontsize'   => 50,
+						'fontsize'   => 48,
 						'lineheight' => 1.5,
 						'fontname'   => 'open-sans',
 						'x'          => 100,
-						'y'          => 100,
+						// 'y'          => 100,  is unused & unset by purpose.
 						'width'      => 1000,
 						// 'height'  is unused & unset by purpose.
 					),
 					1 => array(
-						'type'   => 'image',
+						'type'  => 'image',
 						// 'attachment' => 45,   Do not set this at all, to prevent fatal errors.
-						'x'      => 25,
-						'y'      => 25,
-						'width'  => 50,
-						'height' => 50,
+						'x'     => 25,
+						'y'     => 25,
+						'width' => 50,
+						// 'height' => 50,  is unused & unset by purpose.
 					),
 					2 => array(
 						'type'       => 'text',
 						// 'dynamic' => 'dynamic',  is unused & unset by purpose.
-						'dynamic'    => 0,
 						'title'      => 'URL',
 						'content'    => 'figuren.theater',
 						'sample'     => 'figuren.theater/1234567',
 						'preset'     => 'ft_shortlink', // Must be a custom name and not empty.
 						'color'      => '#ffffff',
-						'horizontal' => 'right',
+						'horizontal' => 'left',
 						'vertical'   => 'top',
 						'fontsize'   => 10,
 						'lineheight' => 1.5,
 						'fontname'   => 'open-sans',
-						'x'          => 0,
-						'y'          => 595,
-						'width'      => 1175,
+						'x'          => 1000,
+						'y'          => 600,
+						// 'width'      => 1175,  is unused & unset by purpose.
 						// 'height'  => '',  is unused & unset by purpose.
 					),
 					3 => array(
@@ -111,6 +107,13 @@ function filter_options(): void {
 						'width'     => 1200,
 						'height'    => 630,
 					),
+					4 => array(
+						'type'       => 'filter',
+						'blur'       => 'blur',
+						'brightness' => 0,
+						'contrast'   => 0,
+						'blackout'   => 0,
+					),
 				),
 			),
 		),
@@ -118,7 +121,7 @@ function filter_options(): void {
 
 	// Gets added to the 'OptionsCollection' 
 	// from within itself on creation.
-	new Options\Factory( 
+	new Figuren_Theater\Options\Factory( 
 		$_options, 
 		'Figuren_Theater\Options\Option', 
 		Sharing_Image\BASENAME

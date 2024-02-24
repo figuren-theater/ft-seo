@@ -69,13 +69,9 @@ function load_plugin(): void {
 	// FRONTEND.
 	Frontend\bootstrap();
 
-	// if ( ! is_admin()  )
-	// return;
-
 	// BACKEND.
 	Admin_UI\bootstrap();
 
-	// BACKEND | Autogeneration logic
-	// Triggered on 'wp_insert_post' and/or on 'updated_post_meta'.
+	// BACKEND | Autogeneration logic.
 	Generation\bootstrap();
 }

@@ -304,7 +304,7 @@ function filter_options(): void {
 	 * Gets added to the 'OptionsCollection'
 	 * from within itself on creation.
 	 */
-	new Options\Option_Merged(
+	new Figuren_Theater\Options\Option_Merged(
 		'wpseo',
 		$_options['wpseo'],
 		Yoast_SEO\BASENAME
@@ -314,7 +314,7 @@ function filter_options(): void {
 	 * Gets added to the 'OptionsCollection'
 	 * from within itself on creation.
 	 */
-	new Options\Option(
+	new Figuren_Theater\Options\Option(
 		'wpseo_ms',
 		$_options['wpseo_ms'],
 		Yoast_SEO\BASENAME,
@@ -325,7 +325,7 @@ function filter_options(): void {
 	 * Gets added to the 'OptionsCollection'
 	 * from within itself on creation.
 	 */
-	new Options\Option(
+	new Figuren_Theater\Options\Option(
 		'wpseo_titles',
 		$_options['wpseo_titles'],
 		Yoast_SEO\BASENAME
@@ -335,7 +335,7 @@ function filter_options(): void {
 	 * Gets added to the 'OptionsCollection'
 	 * from within itself on creation.
 	 */
-	new Options\Option(
+	new Figuren_Theater\Options\Option(
 		'wpseo_ryte',
 		$_options['wpseo_ryte'],
 		Yoast_SEO\BASENAME
@@ -345,7 +345,7 @@ function filter_options(): void {
 	 * Gets added to the 'OptionsCollection'
 	 * from within itself on creation.
 	 */
-	new Options\Option(
+	new Figuren_Theater\Options\Option(
 		'wpseo_social',
 		$_options['wpseo_social'],
 		Yoast_SEO\BASENAME
