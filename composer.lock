@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce415eee6abf0794241a0e91d8edf37a",
+    "content-hash": "e4521d5976bf881988a299bf01d096e7",
     "packages": [
         {
             "name": "composer/installers",
@@ -257,15 +257,15 @@
         },
         {
             "name": "wpackagist-plugin/sharing-image",
-            "version": "2.0",
+            "version": "2.0.17",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/sharing-image/",
-                "reference": "tags/2.0"
+                "reference": "tags/2.0.17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/sharing-image.2.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/sharing-image.2.0.17.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"

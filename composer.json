@@ -30,7 +30,7 @@
     "require": {
         "php": ">=7.1",
         "figuren-theater/ft-options": "*",
-        "wpackagist-plugin/sharing-image": "2.0",
+        "wpackagist-plugin/sharing-image": "^2.0",
         "wpackagist-plugin/wordpress-seo": "19.8"
     },
     "require-dev": {
