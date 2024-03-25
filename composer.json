@@ -31,7 +31,7 @@
         "php": ">=7.1",
         "figuren-theater/ft-options": "*",
         "wpackagist-plugin/sharing-image": "^2.0",
-        "wpackagist-plugin/wordpress-seo": "19.8"
+        "wpackagist-plugin/wordpress-seo": "22.3"
     },
     "require-dev": {
         "figuren-theater/code-quality": "^1.1"
